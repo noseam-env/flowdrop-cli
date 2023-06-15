@@ -9,20 +9,19 @@
 #include "find.hpp"
 #include "flowdrop.hpp"
 
-void callback(const flowdrop::Receiver& receiver) {
-    flowdrop::DeviceInfo deviceInfo = receiver.deviceInfo;
+void callback(const flowdrop::DeviceInfo& deviceInfo) {
     std::cout << "Found: ID " << deviceInfo.id;
-    if (!deviceInfo.name.empty()) {
-        std::cout << " Name=" << deviceInfo.name;
+    if (deviceInfo.name.has_value()) {
+        std::cout << " Name=" << deviceInfo.name.value();
     }
-    if (!deviceInfo.model.empty()) {
-        std::cout << " Model=" << deviceInfo.model;
+    if (deviceInfo.model.has_value()) {
+        std::cout << " Model=" << deviceInfo.model.value();
     }
-    if (!deviceInfo.platform.empty()) {
-        std::cout << " Platform=" << deviceInfo.platform;
+    if (deviceInfo.platform.has_value()) {
+        std::cout << " Platform=" << deviceInfo.platform.value();
     }
-    if (!deviceInfo.system_version.empty()) {
-        std::cout << " SystemVersion=" << deviceInfo.system_version;
+    if (deviceInfo.system_version.has_value()) {
+        std::cout << " SystemVersion=" << deviceInfo.system_version.value();
     }
     std::cout << std::endl;
 }

@@ -8,11 +8,11 @@
 #include "fetch_device_info.hpp"
 
 flowdrop::DeviceInfo SimpleFetchDI(std::string id) {
-    std::string uuid;
-    std::string name;
-    std::string model;
-    std::string platform;
-    std::string system_version;
+    std::optional<std::string> uuid;
+    std::optional<std::string> name;
+    std::optional<std::string> model;
+    std::optional<std::string> platform;
+    std::optional<std::string> system_version;
 
 #if defined(_WIN32)
     //const DWORD encodedVersion = ::GetVersion();

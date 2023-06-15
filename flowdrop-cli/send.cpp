@@ -11,6 +11,41 @@
 #include "send.hpp"
 #include "flowdrop.hpp"
 
+class SendEventListener : public flowdrop::IEventListener {
+public:
+    void onResolving() override {
+        std::cout << "Resolving receiver ..." << std::endl;
+    }
+
+    void onReceiverNotFound() override {
+        std::cout << "Receiver not found" << std::endl;
+    }
+
+    void onResolved() override {
+        std::cout << "Resolved" << std::endl;
+    }
+
+    void onAskingReceiver() override {
+        std::cout << "Asking receiver to accept ..." << std::endl;
+    }
+
+    void onReceiverDeclined() override {
+        std::cout << "Receiver declined" << std::endl;
+    }
+
+    void onReceiverAccepted() override {
+        std::cout << "Receiver accepted" << std::endl;
+    }
+
+    void onSendingStart() override {
+        std::cout << "Sending files ..." << std::endl;
+    }
+
+    void onSendingEnd() override {
+        std::cout << "Done" << std::endl;
+    }
+};
+
 std::string join(const std::vector<std::string>& vec, const std::string& delimiter) {
     std::ostringstream oss;
     auto it = vec.begin();
@@ -30,6 +65,5 @@ void cmd_send(const std::string& receiverId, const std::vector<std::string>& fil
         std::cout << "resolve_timeout: " << resolveTimeout << std::endl;
         std::cout << "accept_timeout: " << acceptTimeout << std::endl;
     }
-
-    flowdrop::send(receiverId, files, resolveTimeout, acceptTimeout);
+    flowdrop::send(receiverId, files, resolveTimeout, acceptTimeout, new SendEventListener());
 }

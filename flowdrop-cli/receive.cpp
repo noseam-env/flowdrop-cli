@@ -11,6 +11,22 @@
 #include "receive.hpp"
 #include "flowdrop.hpp"
 
+class ReceiveEventListener : public flowdrop::IEventListener {
+public:
+    void onReceiverStarted(unsigned short port) override {
+        std::cout << "Receiving as " << flowdrop::thisDeviceInfo.id << std::endl;
+        std::cout << "Press Ctrl+C to stop ..." << std::endl;
+    }
+
+    void onReceivingStart(const flowdrop::DeviceInfo &sender, std::size_t totalSize) override {
+        std::cout << "Receiving files ..." << std::endl;
+    }
+
+    void onReceivingEnd(const flowdrop::DeviceInfo &sender, std::size_t totalSize) override {
+        std::cout << "Receiving done" << std::endl;
+    }
+};
+
 void cmd_receive(const std::string &dest, int acceptDelay) {
     if (flowdrop::debug) {
         std::cout << "dest: " << dest << std::endl;
@@ -22,5 +38,5 @@ void cmd_receive(const std::string &dest, int acceptDelay) {
             std::this_thread::sleep_for(std::chrono::seconds(acceptDelay));
         }
         return true;
-    });
+    }, new ReceiveEventListener());
 }

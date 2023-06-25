@@ -5,14 +5,14 @@
  * https://github.com/FlowDrop/flowdrop-cli/blob/master/LEGAL
  */
 
-#ifndef FLOWDROP_CLI_FETCH_DEVICE_INFO_HPP
-#define FLOWDROP_CLI_FETCH_DEVICE_INFO_HPP
+#ifndef FLOWDROP_CLI_SIMPLE_DEVICE_INFO_HPP
+#define FLOWDROP_CLI_SIMPLE_DEVICE_INFO_HPP
 
 
 #include <string>
 #include "flowdrop.hpp"
 
-flowdrop::DeviceInfo SimpleFetchDI(std::string id);
+void SimpleDeviceInfo(flowdrop::DeviceInfo &deviceInfo);
 
 
-#endif //FLOWDROP_CLI_FETCH_DEVICE_INFO_HPP
+#endif //FLOWDROP_CLI_SIMPLE_DEVICE_INFO_HPP

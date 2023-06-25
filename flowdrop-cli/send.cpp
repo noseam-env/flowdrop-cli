@@ -10,6 +10,8 @@
 #include <sstream>
 #include "send.hpp"
 #include "flowdrop.hpp"
+#include "simple_device_info.hpp"
+#include "main.hpp"
 
 class SendEventListener : public flowdrop::IEventListener {
 public:
@@ -65,5 +67,13 @@ void cmd_send(const std::string& receiverId, const std::vector<std::string>& fil
         std::cout << "resolve_timeout: " << resolveTimeout << std::endl;
         std::cout << "accept_timeout: " << acceptTimeout << std::endl;
     }
-    flowdrop::send(receiverId, files, resolveTimeout, acceptTimeout, new SendEventListener());
+    auto *sendRequest = new flowdrop::SendRequest();
+    sendRequest->setDeviceInfo(deviceInfo);
+    sendRequest->setReceiverId(receiverId);
+    sendRequest->setFiles(files);
+    sendRequest->setResolveTimeout(std::chrono::milliseconds(resolveTimeout * 1000));
+    sendRequest->setAskTimeout(std::chrono::milliseconds(acceptTimeout * 1000));
+    sendRequest->setEventListener(new SendEventListener());
+    sendRequest->execute();
+    //flowdrop::send(receiverId, files, resolveTimeout, acceptTimeout, new SendEventListener());
 }

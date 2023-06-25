@@ -9,17 +9,20 @@ add_subdirectory(ThirdParty/argparse)
 #add_subdirectory(ThirdParty/nlohmann)
 
 add_executable(flowdrop-cli
-        fetch_device_info.cpp
-        fetch_device_info.hpp
         find.cpp
         find.hpp
         format_util.cpp
         format_util.hpp
         main.cpp
+        main.hpp
         receive.cpp
         receive.hpp
         send.cpp
         send.hpp
+        simple_device_info.hpp
+        simple_device_info_linux.cpp
+        simple_device_info_macos.cpp
+        simple_device_info_windows.cpp
         )
 
 target_include_directories(flowdrop-cli PRIVATE ../libflowdrop/include)

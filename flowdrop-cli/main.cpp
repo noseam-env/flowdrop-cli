@@ -14,7 +14,9 @@
 #include "receive.hpp"
 #include "find.hpp"
 #include "send.hpp"
-#include "fetch_device_info.hpp"
+#include "simple_device_info.hpp"
+
+flowdrop::DeviceInfo deviceInfo = {};
 
 int main(int argc, char *argv[]) {
     argparse::ArgumentParser program("flowdrop-cli", "0.0.1", argparse::default_arguments::help);
@@ -23,8 +25,10 @@ int main(int argc, char *argv[]) {
 
     argparse::ArgumentParser receive_command("receive", "", argparse::default_arguments::none);
     receive_command.add_description("Auto accept and receive files");
-    receive_command.add_argument("-d", "--dest").default_value(std::string("./")).help("Destination folder for received files");
-    receive_command.add_argument("--ad").default_value(0).scan<'i', int>().help("Delay before accept file (in seconds)");
+    receive_command.add_argument("-d", "--dest").default_value(std::string("./")).help(
+            "Destination folder for received files");
+    receive_command.add_argument("--ad").default_value(0).scan<'i', int>().help(
+            "Delay before accept file (in seconds)");
     program.add_subparser(receive_command);
 
     argparse::ArgumentParser find_command("find", "", argparse::default_arguments::none);
@@ -36,7 +40,8 @@ int main(int argc, char *argv[]) {
     send_command.add_argument("receiver_id").help("Receiver Id").required();
     send_command.add_argument("files").help("Files to send").nargs(argparse::nargs_pattern::at_least_one);
     send_command.add_argument("--rt").default_value(10).scan<'i', int>().help("Resolve receiver timeout (in seconds)");
-    send_command.add_argument("--at").default_value(60).scan<'i', int>().help("Ask receiver to accept timeout (in seconds)");
+    send_command.add_argument("--at").default_value(60).scan<'i', int>().help(
+            "Ask receiver to accept timeout (in seconds)");
     program.add_subparser(send_command);
 
     try {
@@ -62,10 +67,14 @@ int main(int argc, char *argv[]) {
 
     flowdrop::debug = program["--debug"] == true;
 
-    flowdrop::thisDeviceInfo = SimpleFetchDI(flowdrop::gen_md5_id());
+    deviceInfo.id = flowdrop::generate_md5_id();
+    try {
+        SimpleDeviceInfo(deviceInfo);
+    } catch (std::exception &) {
+    }
 
     if (flowdrop::debug) {
-        json j = flowdrop::thisDeviceInfo;
+        json j = deviceInfo;
         std::string json_str = j.dump();
         std::cout << json_str << std::endl;
     }

@@ -20,4 +20,5 @@ endif()
 project(flowdrop-cli)
 
 add_subdirectory(libflowdrop)
+add_subdirectory(simpledeviceinfo)
 add_subdirectory(flowdrop-cli)

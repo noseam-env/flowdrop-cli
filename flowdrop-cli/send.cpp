@@ -10,7 +10,6 @@
 #include <sstream>
 #include "send.hpp"
 #include "flowdrop.hpp"
-#include "simple_device_info.hpp"
 #include "main.hpp"
 
 class SendEventListener : public flowdrop::IEventListener {

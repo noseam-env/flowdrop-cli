@@ -7,7 +7,7 @@
 
 #if defined(_WIN32)
 
-#include "simple_device_info.hpp"
+#include "simpledeviceinfo.hpp"
 #include <Windows.h>
 #include <Shlwapi.h>
 #include <comdef.h>
@@ -178,9 +178,9 @@ std::optional<std::string> GetComputerModel() {
     }
 }
 
-void SimpleDeviceInfo(flowdrop::DeviceInfo &deviceInfo) {
-    deviceInfo.platform = "Windows";
-    deviceInfo.system_version = GetWindowsVersion();
+void SDIFetch(SDIInfo &info) {
+    info.platform = "Windows";
+    info.system_version = GetWindowsVersion();
 
     // uuid
     HKEY hKey;
@@ -189,7 +189,7 @@ void SimpleDeviceInfo(flowdrop::DeviceInfo &deviceInfo) {
         DWORD uuidSize = sizeof(uuid);
         if (RegQueryValueExA(hKey, "MachineGuid", nullptr, nullptr,
                              reinterpret_cast<LPBYTE>(uuid), &uuidSize) == ERROR_SUCCESS) {
-            deviceInfo.uuid = uuid;
+            info.uuid = uuid;
         }
         RegCloseKey(hKey);
     }
@@ -198,11 +198,11 @@ void SimpleDeviceInfo(flowdrop::DeviceInfo &deviceInfo) {
     char computerName[256];
     DWORD computerNameSize = sizeof(computerName);
     if (GetComputerNameExA(ComputerNameDnsHostname, computerName, &computerNameSize)) {
-        deviceInfo.name = computerName;
+        info.name = computerName;
     }
 
     // model
-    deviceInfo.model = GetComputerModel();
+    info.model = GetComputerModel();
 }
 
 #endif

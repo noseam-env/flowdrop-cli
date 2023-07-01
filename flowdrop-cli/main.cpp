@@ -10,11 +10,11 @@
 #include <array>
 
 #include "flowdrop.hpp"
+#include "simpledeviceinfo.hpp"
 #include "argparse/argparse.hpp"
 #include "receive.hpp"
 #include "find.hpp"
 #include "send.hpp"
-#include "simple_device_info.hpp"
 
 flowdrop::DeviceInfo deviceInfo = {};
 
@@ -69,7 +69,13 @@ int main(int argc, char *argv[]) {
 
     deviceInfo.id = flowdrop::generate_md5_id();
     try {
-        SimpleDeviceInfo(deviceInfo);
+        SDIInfo info{};
+        SDIFetch(info);
+        deviceInfo.uuid = info.uuid;
+        deviceInfo.name = info.name;
+        deviceInfo.model = info.model;
+        deviceInfo.platform = info.platform;
+        deviceInfo.system_version = info.system_version;
     } catch (std::exception &) {
     }
 

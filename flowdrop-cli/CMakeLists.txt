@@ -19,15 +19,13 @@ add_executable(flowdrop-cli
         receive.hpp
         send.cpp
         send.hpp
-        simple_device_info.hpp
-        simple_device_info_linux.cpp
-        simple_device_info_macos.cpp
-        simple_device_info_windows.cpp
         )
 
 target_include_directories(flowdrop-cli PRIVATE ../libflowdrop/include)
+target_include_directories(flowdrop-cli PRIVATE ../simpledeviceinfo/include)
 target_include_directories(flowdrop-cli PRIVATE ThirdParty/argparse/include)
 target_include_directories(flowdrop-cli PRIVATE ThirdParty/nlohmann/include)
 
 target_link_libraries(flowdrop-cli PRIVATE argparse)
 target_link_libraries(flowdrop-cli PRIVATE libflowdrop_static)
+target_link_libraries(flowdrop-cli PRIVATE simpledeviceinfo_static)

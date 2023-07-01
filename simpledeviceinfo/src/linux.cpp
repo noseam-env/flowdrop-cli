@@ -7,10 +7,10 @@
 
 #if defined(__linux__)
 
-#include "simple_device_info.hpp"
+#include "simpledeviceinfo.hpp"
 #include <fstream>
 
-void SimpleDeviceInfo(flowdrop::DeviceInfo &deviceInfo) {
+void SDIFetch(SDIInfo &info) {
     std::ifstream infile("/etc/os-release");
     std::string line;
 
@@ -28,8 +28,8 @@ void SimpleDeviceInfo(flowdrop::DeviceInfo &deviceInfo) {
         }
     }
 
-    deviceInfo.platform = os_info["NAME"];
-    deviceInfo.system_version = os_info["VERSION_ID"];
+    info.platform = os_info["NAME"];
+    info.system_version = os_info["VERSION_ID"];
 }
 
 #endif

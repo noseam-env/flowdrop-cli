@@ -10,10 +10,10 @@ The source code is published under GPL-3.0 license with anti-commercial clause, 
 
 #### OS compatibility
 
-- windows AMD64: `working` *(requires Bonjour)*
-- Windows ARM64: `required to build Bonjour`
 - Linux: `working` *(requires libavahi-compat-libdnssd-dev)*
-- macOS: `not tested, probably working`
+- macOS: `working`
+- Windows AMD64: `working` *(requires Bonjour)*
+- Windows ARM64: `required to build Bonjour`
 
 
 ## Requirements

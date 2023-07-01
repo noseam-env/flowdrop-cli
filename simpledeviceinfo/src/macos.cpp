@@ -12,11 +12,10 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <algorithm>
 #include <string>
-#include <locale>
-#include <codecvt>
 
 extern "C" {
-const char* getCurrentHostNameC();
+const char *getCurrentHostName();
+const char *getDeviceModel();
 }
 
 std::string getUUID() {
@@ -58,15 +57,10 @@ std::string getVersion() {
     return version;
 }
 
-std::string convertToUTF8(const char* str) {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring wideStr = std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>>().from_bytes(str);
-    return converter.to_bytes(wideStr);
-}
-
 void SDIFetch(SDIInfo &info) {
     info.uuid = getUUID();
-    info.name = convertToUTF8(getCurrentHostNameC());
+    info.name = getCurrentHostName();
+    info.model = getDeviceModel();
     info.platform = "macOS";
     try {
         info.system_version = getVersion();

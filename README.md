@@ -2,7 +2,7 @@
 
 [FlowDrop](https://github.com/noseam-env/flowdrop) is a cross-platform tool that allows sharing files between devices directly over Wi-Fi.
 
-On Windows download and install Apple's [Bonjour](https://raw.githubusercontent.com/noseam-env/flowdrop-cli/master/redist/Bonjour64.exe)
+On Windows download and install Apple's [Bonjour](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/Bonjour64.msi)
 
 For some reason, it is not possible to send the file the first time
 
@@ -20,7 +20,7 @@ The source code is published under GPL-3.0 license with anti-commercial clause, 
 
 Local network that supports mDNS
 
-On Windows download and install Apple's [Bonjour](https://raw.githubusercontent.com/noseam-env/flowdrop-cli/master/redist/Bonjour64.exe) or [Bonjour SDK](https://raw.githubusercontent.com/noseam-env/flowdrop-cli/master/redist/bonjoursdksetup.exe) (for developing)
+On Windows download and install Apple's [Bonjour](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/Bonjour64.msi) or [Bonjour SDK](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/bonjoursdksetup.exe) (for developing)
 
 
 ## TODO

@@ -1,7 +1,7 @@
 # This file is part of flowdrop-cli.
 #
 # For license and copyright information please follow this link:
-# https://github.com/FlowDrop/flowdrop-cli/blob/master/LEGAL
+# https://github.com/noseam-env/flowdrop-cli/blob/master/LEGAL
 
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
@@ -19,6 +19,4 @@ endif()
 
 project(flowdrop-cli)
 
-add_subdirectory(libflowdrop)
-add_subdirectory(simpledeviceinfo)
 add_subdirectory(flowdrop-cli)

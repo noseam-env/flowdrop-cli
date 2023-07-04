@@ -2,7 +2,7 @@
  * This file is part of flowdrop-cli.
  *
  * For license and copyright information please follow this link:
- * https://github.com/FlowDrop/flowdrop-cli/blob/master/LEGAL
+ * https://github.com/noseam-env/flowdrop-cli/blob/master/LEGAL
  */
 
 #include <iostream>
@@ -10,7 +10,7 @@
 #include <array>
 
 #include "flowdrop.hpp"
-#include "simpledeviceinfo.hpp"
+#include "knot/deviceinfo.h"
 #include "argparse/argparse.hpp"
 #include "receive.hpp"
 #include "find.hpp"
@@ -69,8 +69,8 @@ int main(int argc, char *argv[]) {
 
     deviceInfo.id = flowdrop::generate_md5_id();
     try {
-        SDIInfo info{};
-        SDIFetch(info);
+        KNDeviceInfo info{};
+        KNDeviceInfoFetch(info);
         deviceInfo.uuid = info.uuid;
         deviceInfo.name = info.name;
         deviceInfo.model = info.model;

@@ -1,3 +1,6 @@
-[submodule "libflowdrop"]
-	path = libflowdrop
-	url = https://github.com/FlowDrop/libflowdrop
+[submodule "flowdrop-cli/ThirdParty/libflowdrop"]
+	path = flowdrop-cli/ThirdParty/libflowdrop
+	url = https://github.com/noseam-env/libflowdrop
+[submodule "flowdrop-cli/ThirdParty/libknotdeviceinfo"]
+	path = flowdrop-cli/ThirdParty/libknotdeviceinfo
+	url = https://github.com/noseam-env/libknotdeviceinfo

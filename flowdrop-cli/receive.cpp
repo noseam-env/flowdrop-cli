@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <thread>
+#include <csignal>
 #include "receive.hpp"
 #include "flowdrop.hpp"
 #include "main.hpp"
@@ -31,13 +32,27 @@ public:
     }
 };
 
+flowdrop::Receiver *receiver = nullptr;
+
+void stop(int signal) {
+    // TODO: hide message "poll: No error"
+    std::ios_base::sync_with_stdio(false);
+    std::cout.setf(std::ios_base::unitbuf);
+    if (receiver) {
+        receiver->stop();
+    }
+    std::exit(0);
+}
+
 void cmd_receive(const std::string &dest, int acceptDelay) {
+    std::signal(SIGINT, stop);
+
     if (flowdrop::debug) {
         std::cout << "dest: " << dest << std::endl;
         std::cout << "accept_delay: " << std::to_string(acceptDelay) << std::endl;
     }
 
-    auto *receiver = new flowdrop::Receiver(deviceInfo);
+    receiver = new flowdrop::Receiver(deviceInfo);
     receiver->setEventListener(new ReceiveEventListener());
     receiver->setAskCallback([&acceptDelay](const flowdrop::SendAsk &sendAsk){
         if (acceptDelay > 0) {

@@ -2,25 +2,17 @@
 
 [FlowDrop](https://github.com/noseam-env/flowdrop) is a cross-platform tool that allows sharing files between devices directly over Wi-Fi.
 
-On Windows download and install Apple's [Bonjour](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/Bonjour64.msi)
-
 For some reason, it is not possible to send the file the first time
 
 The source code is published under GPL-3.0 license with anti-commercial clause, the license is available [here](https://github.com/noseam-env/flowdrop-cli/blob/master/LICENSE).
-
-#### OS compatibility
-
-- Linux: `working` *(requires libavahi-compat-libdnssd-dev)*
-- macOS: `working`
-- Windows AMD64: `working` *(requires Bonjour)*
-- Windows ARM64: `required to build Bonjour`
 
 
 ## Requirements
 
 Local network that supports mDNS
 
-On Windows download and install Apple's [Bonjour](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/Bonjour64.msi) or [Bonjour SDK](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/bonjoursdksetup.exe) (for developing)
+- Windows: download and install Apple's [Bonjour](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/Bonjour64.msi)
+- GNU/Linux: install avahi `sudo apt install avahi-daemon`
 
 
 ## TODO
@@ -29,7 +21,7 @@ I will be glad if you help improve this project
 
 - Improve [FlowDrop specification](https://github.com/noseam-env/flowdrop)
 - Code the progress of sending and receiving files
-- Build [Bonjour SDK](https://github.com/apple-oss-distributions/mDNSResponder) for Windows ARM.
+- Build [Bonjour](https://github.com/apple-oss-distributions/mDNSResponder) for Windows ARM.
 
 
 ## Usage
@@ -63,6 +55,12 @@ Receiving is much easier. Simply use the `receive` command. FlowDrop will accept
 ```
 $ flowdrop-cli receive
 ```
+
+## Build instructions
+
+* [GNU/Linux](docs/building-linux.md)
+* [macOS](docs/building-mac.md)
+* [Windows](docs/building-win.md)
 
 
 ## Authors

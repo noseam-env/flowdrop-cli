@@ -22,7 +22,7 @@ add_executable(flowdrop-cli
         send.hpp)
 
 target_link_libraries(flowdrop-cli PRIVATE
-        nlohmann_json::nlohmann_json
+#        nlohmann_json::nlohmann_json
         knotdeviceinfo_static
         libflowdrop_static
         argparse)

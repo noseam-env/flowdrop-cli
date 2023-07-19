@@ -6,8 +6,7 @@
  */
 
 #include <iostream>
-#include "find.hpp"
-#include "flowdrop.hpp"
+#include "main.hpp"
 
 void callback(const flowdrop::DeviceInfo& deviceInfo) {
     std::cout << "Found: ID " << deviceInfo.id;
@@ -26,7 +25,7 @@ void callback(const flowdrop::DeviceInfo& deviceInfo) {
     std::cout << std::endl;
 }
 
-void cmd_find() {
+void Command::find() {
     std::cout << "Looking for receivers. Press Ctrl+C to stop ..." << std::endl;
     flowdrop::find(callback);
 }

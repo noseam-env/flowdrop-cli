@@ -10,6 +10,11 @@ cmake_policy(SET CMP0077 NEW)
 cmake_policy(SET CMP0091 NEW)
 cmake_policy(SET CMP0111 NEW)
 
-project(flowdrop-cli)
+include(cmake/version.cmake)
+app_parse_version(flowdrop-cli/version)
+
+project(flowdrop-cli
+        LANGUAGES CXX
+        VERSION ${app_version})
 
 add_subdirectory(flowdrop-cli)

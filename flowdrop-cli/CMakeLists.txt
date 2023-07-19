@@ -9,20 +9,18 @@ add_subdirectory(ThirdParty/argparse)
 add_subdirectory(ThirdParty/libflowdrop)
 add_subdirectory(ThirdParty/libknotdeviceinfo)
 
+add_definitions(-DFLOWDROP_CLI_VERSION="${app_version}")
+
 add_executable(flowdrop-cli
-        find.cpp
-        find.hpp
-        format_util.cpp
-        format_util.hpp
-        main.cpp
-        main.hpp
-        receive.cpp
-        receive.hpp
-        send.cpp
-        send.hpp)
+        SourceFiles/find.cpp
+        SourceFiles/format_util.cpp
+        SourceFiles/format_util.hpp
+        SourceFiles/main.cpp
+        SourceFiles/main.hpp
+        SourceFiles/receive.cpp
+        SourceFiles/send.cpp SourceFiles/os_util.cpp SourceFiles/os_util.h)
 
 target_link_libraries(flowdrop-cli PRIVATE
-#        nlohmann_json::nlohmann_json
         knotdeviceinfo_static
         libflowdrop_static
         argparse)

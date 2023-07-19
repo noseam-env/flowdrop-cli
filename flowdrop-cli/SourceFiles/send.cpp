@@ -8,9 +8,8 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include "send.hpp"
-#include "flowdrop.hpp"
 #include "main.hpp"
+#include "format_util.hpp"
 
 class SendEventListener : public flowdrop::IEventListener {
 public:
@@ -42,9 +41,30 @@ public:
         std::cout << "Sending files ..." << std::endl;
     }
 
+    void onSendingFileStart(const flowdrop::FileInfo &) override {
+        lastProgressTime = std::chrono::system_clock::now();
+        lastProgressTime -= std::chrono::milliseconds(100);
+    }
+
+    void onSendingFileProgress(const flowdrop::FileInfo &fileInfo, std::size_t currentSize) override {
+        std::size_t totalSize = fileInfo.size;
+        if (totalSize == currentSize) {
+            printProgress(fileInfo.name, totalSize, currentSize, true);
+            return;
+        }
+        auto currentTime = std::chrono::system_clock::now();
+        auto elapsedMilliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastProgressTime).count();
+        if (elapsedMilliseconds < 100) return; // update every 0.1 sec
+        printProgress(fileInfo.name, totalSize, currentSize, false);
+        lastProgressTime = currentTime;
+    }
+
     void onSendingEnd() override {
         std::cout << "Done" << std::endl;
     }
+
+private:
+    std::chrono::time_point<std::chrono::system_clock> lastProgressTime;
 };
 
 std::string join(const std::vector<std::string>& vec, const std::string& delimiter) {
@@ -59,7 +79,7 @@ std::string join(const std::vector<std::string>& vec, const std::string& delimit
     return oss.str();
 }
 
-void cmd_send(const std::string& receiverId, const std::vector<std::string>& files, int resolveTimeout, int acceptTimeout) {
+void Command::send(const std::string& receiverId, const std::vector<std::string>& files, int resolveTimeout, int acceptTimeout) {
     if (flowdrop::debug) {
         std::cout << "receiver_id: " << receiverId << std::endl;
         std::cout << "files: [" << join(files, ", ") << "]" << std::endl;
@@ -67,7 +87,7 @@ void cmd_send(const std::string& receiverId, const std::vector<std::string>& fil
         std::cout << "accept_timeout: " << acceptTimeout << std::endl;
     }
     auto *sendRequest = new flowdrop::SendRequest();
-    sendRequest->setDeviceInfo(deviceInfo);
+    sendRequest->setDeviceInfo(currentDeviceInfo);
     sendRequest->setReceiverId(receiverId);
     sendRequest->setFiles(files);
     sendRequest->setResolveTimeout(std::chrono::milliseconds(resolveTimeout * 1000));

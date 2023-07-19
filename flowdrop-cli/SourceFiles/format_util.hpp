@@ -4,12 +4,8 @@
  * For license and copyright information please follow this link:
  * https://github.com/noseam-env/libflowdrop/blob/master/LEGAL
  */
+#pragma once
 
-#ifndef LIBFLOWDROP_FORMAT_UTIL_HPP
-#define LIBFLOWDROP_FORMAT_UTIL_HPP
+#include <string>
 
-
-std::string formatBytes(size_t bytes);
-
-
-#endif //LIBFLOWDROP_FORMAT_UTIL_HPP
+void printProgress(const std::string& fileName, std::size_t totalSize, std::size_t currentSize, bool last);

@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     argparse::ArgumentParser send_command("send", "", argparse::default_arguments::none);
     send_command.add_description("Send files to receiver");
     send_command.add_argument("receiver_id")
-            .help("Receiver Id")
+            .help("Server Id")
             .required();
     send_command.add_argument("files")
             .help("Files to send")

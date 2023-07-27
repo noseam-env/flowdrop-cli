@@ -44,8 +44,8 @@ $ flowdrop-cli send f56648ba9f79 path/to/some/file.mp4
 Resolving receiver ...
 Resolved
 Asking receiver to accept ...
-Receiver accepted
-file.mp4                   100%[##########################] 4 GB/4 GB | 64 MB/s
+Server accepted
+file.mp4           100%[##########################] 4 GB/4 GB
 Done
 ```
 

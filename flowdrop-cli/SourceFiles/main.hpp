@@ -6,7 +6,7 @@
  */
 #pragma once
 
-#include "flowdrop.hpp"
+#include "flowdrop/flowdrop.hpp"
 
 extern flowdrop::DeviceInfo currentDeviceInfo;
 

@@ -26,7 +26,7 @@ std::string adjustStringToLength(const std::string& input, size_t length) {
 constexpr int base = 1024;
 constexpr const char* suffixes[] = {"B", "KB", "MB", "GB"};
 
-std::string formatBytes(std::size_t bytes) {
+std::string formatBytes(std::uint64_t bytes) {
     if (bytes < base) {
         return std::to_string(bytes) + " " + suffixes[0];
     }
@@ -43,7 +43,7 @@ std::string formatBytes(std::size_t bytes) {
 
 constexpr int progressBarRatio = 100 / PROGRESS_BAR_LENGTH;
 
-void printProgress(const std::string& fileName, std::size_t totalSize, std::size_t currentSize, bool last) {
+void printProgress(const std::string& fileName, std::uint64_t totalSize, std::uint64_t currentSize, bool last) {
     int progress = static_cast<int>((static_cast<double>(currentSize) / static_cast<double>(totalSize)) * 100);
 
     std::string progressBar;

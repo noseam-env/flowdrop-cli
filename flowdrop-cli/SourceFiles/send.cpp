@@ -18,7 +18,7 @@ public:
     }
 
     void onReceiverNotFound() override {
-        std::cout << "Receiver not found" << std::endl;
+        std::cout << "Server not found" << std::endl;
     }
 
     void onResolved() override {
@@ -30,11 +30,11 @@ public:
     }
 
     void onReceiverDeclined() override {
-        std::cout << "Receiver declined" << std::endl;
+        std::cout << "Server declined" << std::endl;
     }
 
     void onReceiverAccepted() override {
-        std::cout << "Receiver accepted" << std::endl;
+        std::cout << "Server accepted" << std::endl;
     }
 
     void onSendingStart() override {
@@ -46,8 +46,8 @@ public:
         lastProgressTime -= std::chrono::milliseconds(100);
     }
 
-    void onSendingFileProgress(const flowdrop::FileInfo &fileInfo, std::size_t currentSize) override {
-        std::size_t totalSize = fileInfo.size;
+    void onSendingFileProgress(const flowdrop::FileInfo &fileInfo, std::uint64_t currentSize) override {
+        std::uint64_t totalSize = fileInfo.size;
         if (totalSize == currentSize) {
             printProgress(fileInfo.name, totalSize, currentSize, true);
             return;
@@ -86,13 +86,17 @@ void Command::send(const std::string& receiverId, const std::vector<std::string>
         std::cout << "resolve_timeout: " << resolveTimeout << std::endl;
         std::cout << "accept_timeout: " << acceptTimeout << std::endl;
     }
+    std::vector<flowdrop::File *> adaptedFiles(files.size());
+    for (size_t i = 0; i < files.size(); ++i) {
+        std::filesystem::path path(files[i]);
+        adaptedFiles[i] = new flowdrop::NativeFile(path, path.filename().string());
+    }
     auto *sendRequest = new flowdrop::SendRequest();
     sendRequest->setDeviceInfo(currentDeviceInfo);
     sendRequest->setReceiverId(receiverId);
-    sendRequest->setFiles(files);
+    sendRequest->setFiles(adaptedFiles);
     sendRequest->setResolveTimeout(std::chrono::milliseconds(resolveTimeout * 1000));
     sendRequest->setAskTimeout(std::chrono::milliseconds(acceptTimeout * 1000));
     sendRequest->setEventListener(new SendEventListener());
     sendRequest->execute();
-    //flowdrop::send(receiverId, files, resolveTimeout, acceptTimeout, new SendEventListener());
 }

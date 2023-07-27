@@ -18,7 +18,7 @@ public:
         std::cout << "Press Ctrl+C to stop ..." << std::endl;
     }
 
-    void onReceivingStart(const flowdrop::DeviceInfo &sender, std::size_t totalSize) override {
+    void onReceivingStart(const flowdrop::DeviceInfo &sender, std::uint64_t totalSize) override {
         std::cout << "Receiving files from " << sender.id;
         if (sender.name.has_value()) {
             std::cout << " " << sender.name.value();
@@ -31,8 +31,8 @@ public:
         lastProgressTime -= std::chrono::milliseconds(100);
     }
 
-    void onReceivingFileProgress(const flowdrop::DeviceInfo &, const flowdrop::FileInfo &fileInfo, std::size_t receivedSize) override {
-        std::size_t totalSize = fileInfo.size;
+    void onReceivingFileProgress(const flowdrop::DeviceInfo &, const flowdrop::FileInfo &fileInfo, std::uint64_t receivedSize) override {
+        std::uint64_t totalSize = fileInfo.size;
         if (totalSize == receivedSize) {
             printProgress(fileInfo.name, totalSize, receivedSize, true);
             return;
@@ -44,7 +44,7 @@ public:
         lastProgressTime = currentTime;
     }
 
-    void onReceivingEnd(const flowdrop::DeviceInfo &sender, std::size_t totalSize) override {
+    void onReceivingEnd(const flowdrop::DeviceInfo &sender, std::uint64_t totalSize) override {
         std::cout << "Receiving done" << std::endl;
     }
 
@@ -52,7 +52,7 @@ private:
     std::chrono::time_point<std::chrono::system_clock> lastProgressTime;
 };
 
-flowdrop::Receiver *receiver = nullptr;
+flowdrop::Server *receiver = nullptr;
 
 void stop([[maybe_unused]] int signal) {
     // TODO: hide message "poll: No error"
@@ -72,7 +72,7 @@ void Command::receive(const std::string &dest, int acceptDelay) {
         std::cout << "accept_delay: " << std::to_string(acceptDelay) << std::endl;
     }
 
-    receiver = new flowdrop::Receiver(currentDeviceInfo);
+    receiver = new flowdrop::Server(currentDeviceInfo);
     receiver->setEventListener(new ReceiveEventListener());
     receiver->setAskCallback([&acceptDelay](const flowdrop::SendAsk &sendAsk){
         if (acceptDelay > 0) {

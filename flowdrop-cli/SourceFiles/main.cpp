@@ -8,12 +8,30 @@
 #include <iostream>
 #include <regex>
 #include <array>
-
 #include "main.hpp"
 #include "knot/deviceinfo.h"
 #include "argparse/argparse.hpp"
 
 flowdrop::DeviceInfo currentDeviceInfo = {};
+
+bool debugEnabled = false;
+
+std::string formatDeviceInfo(const flowdrop::DeviceInfo &info) {
+    std::string result = "ID " + info.id;
+    if (info.name.has_value()) {
+        result += " Name=" + info.name.value();
+    }
+    if (info.model.has_value()) {
+        result += " Model=" + info.model.value();
+    }
+    if (info.platform.has_value()) {
+        result += " Platform=" + info.platform.value();
+    }
+    if (info.system_version.has_value()) {
+        result += " SystemVersion=" + info.system_version.value();
+    }
+    return result;
+}
 
 int main(int argc, char *argv[]) {
     argparse::ArgumentParser program("flowdrop-cli", FLOWDROP_CLI_VERSION, argparse::default_arguments::all);
@@ -35,13 +53,13 @@ int main(int argc, char *argv[]) {
     program.add_subparser(receive_command);
 
     argparse::ArgumentParser find_command("find", "", argparse::default_arguments::none);
-    find_command.add_description("Lookup for devices in local network");
+    find_command.add_description("Discover devices in local network");
     program.add_subparser(find_command);
 
     argparse::ArgumentParser send_command("send", "", argparse::default_arguments::none);
     send_command.add_description("Send files to receiver");
     send_command.add_argument("receiver_id")
-            .help("Server Id")
+            .help("Receiver Id")
             .required();
     send_command.add_argument("files")
             .help("Files to send")
@@ -77,13 +95,13 @@ int main(int argc, char *argv[]) {
         return EXIT_SUCCESS;
     }
 
-    flowdrop::debug = program["--debug"] == true;
+    debugEnabled = program["--debug"] == true;
+    flowdrop::setDebug(debugEnabled);
 
     currentDeviceInfo.id = flowdrop::generate_md5_id();
     try {
         KNDeviceInfo info{};
-        KNDeviceInfoFetch(info);
-        currentDeviceInfo.uuid = info.uuid;
+        KNDeviceInfoFetch(info); // uuid is unused
         currentDeviceInfo.name = info.name;
         currentDeviceInfo.model = info.model;
         currentDeviceInfo.platform = info.platform;
@@ -91,10 +109,8 @@ int main(int argc, char *argv[]) {
     } catch (std::exception &) {
     }
 
-    if (flowdrop::debug) {
-        json j = currentDeviceInfo;
-        std::string json_str = j.dump();
-        std::cout << json_str << std::endl;
+    if (debugEnabled) {
+        std::cout << formatDeviceInfo(currentDeviceInfo) << std::endl;
     }
 
     if (program.is_subcommand_used(receive_command)) {

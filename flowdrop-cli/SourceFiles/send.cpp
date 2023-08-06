@@ -18,7 +18,7 @@ public:
     }
 
     void onReceiverNotFound() override {
-        std::cout << "Server not found" << std::endl;
+        std::cout << "Receiver not found" << std::endl;
     }
 
     void onResolved() override {
@@ -30,11 +30,11 @@ public:
     }
 
     void onReceiverDeclined() override {
-        std::cout << "Server declined" << std::endl;
+        std::cout << "Receiver declined" << std::endl;
     }
 
     void onReceiverAccepted() override {
-        std::cout << "Server accepted" << std::endl;
+        std::cout << "Receiver accepted" << std::endl;
     }
 
     void onSendingStart() override {
@@ -80,7 +80,7 @@ std::string join(const std::vector<std::string>& vec, const std::string& delimit
 }
 
 void Command::send(const std::string& receiverId, const std::vector<std::string>& files, int resolveTimeout, int acceptTimeout) {
-    if (flowdrop::debug) {
+    if (debugEnabled) {
         std::cout << "receiver_id: " << receiverId << std::endl;
         std::cout << "files: [" << join(files, ", ") << "]" << std::endl;
         std::cout << "resolve_timeout: " << resolveTimeout << std::endl;

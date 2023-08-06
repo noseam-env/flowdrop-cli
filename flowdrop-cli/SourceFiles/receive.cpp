@@ -44,7 +44,7 @@ public:
         lastProgressTime = currentTime;
     }
 
-    void onReceivingEnd(const flowdrop::DeviceInfo &sender, std::uint64_t totalSize) override {
+    void onReceivingEnd(const flowdrop::DeviceInfo &sender, std::uint64_t totalSize, const std::vector<flowdrop::FileInfo> &receivedFiles) override {
         std::cout << "Receiving done" << std::endl;
     }
 
@@ -52,14 +52,14 @@ private:
     std::chrono::time_point<std::chrono::system_clock> lastProgressTime;
 };
 
-flowdrop::Server *receiver = nullptr;
+flowdrop::Server *server = nullptr;
 
 void stop([[maybe_unused]] int signal) {
     // TODO: hide message "poll: No error"
     std::ios_base::sync_with_stdio(false);
     std::cout.setf(std::ios_base::unitbuf);
-    if (receiver) {
-        receiver->stop();
+    if (server) {
+        server->stop();
     }
     std::exit(0);
 }
@@ -67,19 +67,19 @@ void stop([[maybe_unused]] int signal) {
 void Command::receive(const std::string &dest, int acceptDelay) {
     std::signal(SIGINT, stop);
 
-    if (flowdrop::debug) {
+    if (debugEnabled) {
         std::cout << "dest: " << dest << std::endl;
         std::cout << "accept_delay: " << std::to_string(acceptDelay) << std::endl;
     }
 
-    receiver = new flowdrop::Server(currentDeviceInfo);
-    receiver->setEventListener(new ReceiveEventListener());
-    receiver->setAskCallback([&acceptDelay](const flowdrop::SendAsk &sendAsk){
+    server = new flowdrop::Server(currentDeviceInfo);
+    server->setEventListener(new ReceiveEventListener());
+    server->setAskCallback([&acceptDelay](const flowdrop::SendAsk &sendAsk){
         if (acceptDelay > 0) {
             std::this_thread::sleep_for(std::chrono::seconds(acceptDelay));
         }
         return true;
     });
-    receiver->setDestDir(dest);
-    receiver->run();
+    server->setDestDir(dest);
+    server->run();
 }

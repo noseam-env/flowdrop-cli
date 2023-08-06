@@ -15,6 +15,6 @@ app_parse_version(flowdrop-cli/version)
 
 project(flowdrop-cli
         LANGUAGES CXX
-        VERSION ${app_version})
+        VERSION ${app_version_cmake})
 
 add_subdirectory(flowdrop-cli)

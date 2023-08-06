@@ -10,6 +10,10 @@
 
 extern flowdrop::DeviceInfo currentDeviceInfo;
 
+extern bool debugEnabled;
+
+std::string formatDeviceInfo(const flowdrop::DeviceInfo &info);
+
 namespace Command {
     void receive(const std::string& dest, int acceptDelay);
 

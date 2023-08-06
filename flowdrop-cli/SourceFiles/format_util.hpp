@@ -8,4 +8,4 @@
 
 #include <string>
 
-void printProgress(const std::string& fileName, std::size_t totalSize, std::size_t currentSize, bool last);
+void printProgress(const std::string& fileName, std::uint64_t totalSize, std::uint64_t currentSize, bool last);

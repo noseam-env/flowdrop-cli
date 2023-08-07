@@ -10,7 +10,7 @@ The source code is published under GPL-3.0 license with anti-commercial clause, 
 Local network that supports mDNS
 
 - Windows: download and install Apple's [Bonjour](https://github.com/noseam-env/flowdrop-cli/raw/master/redist/Bonjour64.msi)
-- GNU/Linux: install avahi `sudo apt install avahi-daemon`
+- GNU/Linux: install avahi `sudo apt-get install avahi-daemon`
 
 
 ## TODO
@@ -55,7 +55,7 @@ $ flowdrop-cli receive
 
 ## Build instructions
 
-* [GNU/Linux](docs/building-linux.md)
+* GNU/Linux [(amd64)](docs/building-linux-amd64.md) [(arm64 cross-compile)](docs/building-linux-arm64.md)
 * [macOS](docs/building-mac.md)
 * [Windows](docs/building-win.md)
 
